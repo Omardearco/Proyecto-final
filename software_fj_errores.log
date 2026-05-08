@@ -12,3 +12,17 @@
 [2026-05-05 08:58:41] [INFO] Reserva creada: RESERVA | [ID:11] Reserva-Sofía Reyes-Soporte TI Premium | Cliente: Sofía Reyes | Servicio: Soporte TI Premium | Cantidad: 1 | Costo: $160,000.00 | Estado: Activa
 [2026-05-05 08:58:41] [INFO] Reserva creada: RESERVA | [ID:12] Reserva-Carlos Ruiz-Capacitación Python OOP | Cliente: Carlos Ruiz | Servicio: Capacitación Python OOP | Cantidad: 2 | Costo: $240,000.00 | Estado: Activa
 [2026-05-05 08:58:41] [INFO] Reserva creada: RESERVA | [ID:13] Reserva-Ana Torres-Capacitación Python OOP | Cliente: Ana Torres | Servicio: Capacitación Python OOP | Cantidad: 1 | Costo: $120,000.00 | Estado: Activa
+[2026-05-08 08:22:29] [INFO] Sistema Software FJ iniciado.
+[2026-05-08 08:22:29] [INFO] Servicio registrado: SERVICIO [CONSULTORÍA] | [ID:1] Consultoría Estratégica | Precio base: $150,000.00 | Cupos: 0/3 | Disponible | Horas: 8 | Costo: $1,200,000.00
+[2026-05-08 08:22:29] [INFO] Servicio registrado: SERVICIO [DESARROLLO] | [ID:2] Desarrollo Web Full-Stack | Precio base: $2,500,000.00 | Cupos: 0/5 | Disponible | Tecnología: Python/React
+[2026-05-08 08:22:29] [INFO] Servicio registrado: SERVICIO [SOPORTE] | [ID:3] Soporte TI Premium | Precio base: $80,000.00 | Cupos: 0/4 | Disponible | Nivel: Premium
+[2026-05-08 08:22:29] [INFO] Servicio registrado: SERVICIO [CAPACITACIÓN] | [ID:4] Capacitación Python OOP | Precio base: $120,000.00 | Cupos: 0/6 | Disponible | Tema: POO en Python
+[2026-05-08 08:22:29] [INFO] Cliente registrado: CLIENTE | [ID:5] Ana Torres | Email: ana.torres@email.com | Tel: 3001234567 | Edad: 32 | Estado: Activo | Reservas: 0
+[2026-05-08 08:22:29] [INFO] Cliente registrado: CLIENTE | [ID:6] Luis Méndez | Email: luis.mendez@empresa.co | Tel: 3119876543 | Edad: 45 | Estado: Activo | Reservas: 0
+[2026-05-08 08:22:29] [INFO] Cliente registrado: CLIENTE | [ID:7] Sofía Reyes | Email: sofia.reyes@mail.com | Tel: 6012345678 | Edad: 27 | Estado: Activo | Reservas: 0
+[2026-05-08 08:22:29] [INFO] Cliente registrado: CLIENTE | [ID:8] Carlos Ruiz | Email: carlos.ruiz@corp.com | Tel: 3205551234 | Edad: 38 | Estado: Activo | Reservas: 0
+[2026-05-08 08:22:29] [INFO] Reserva creada: RESERVA | [ID:9] Reserva-Ana Torres-Consultoría Estratégica | Cliente: Ana Torres | Servicio: Consultoría Estratégica | Cantidad: 1 | Costo: $1,200,000.00 | Estado: Activa
+[2026-05-08 08:22:29] [INFO] Reserva creada: RESERVA | [ID:10] Reserva-Luis Méndez-Desarrollo Web Full-Stack | Cliente: Luis Méndez | Servicio: Desarrollo Web Full-Stack | Cantidad: 3 | Costo: $6,750,000.00 | Estado: Activa
+[2026-05-08 08:22:29] [INFO] Reserva creada: RESERVA | [ID:11] Reserva-Sofía Reyes-Soporte TI Premium | Cliente: Sofía Reyes | Servicio: Soporte TI Premium | Cantidad: 1 | Costo: $160,000.00 | Estado: Activa
+[2026-05-08 08:22:29] [INFO] Reserva creada: RESERVA | [ID:12] Reserva-Carlos Ruiz-Capacitación Python OOP | Cliente: Carlos Ruiz | Servicio: Capacitación Python OOP | Cantidad: 2 | Costo: $240,000.00 | Estado: Activa
+[2026-05-08 08:22:29] [INFO] Reserva creada: RESERVA | [ID:13] Reserva-Ana Torres-Capacitación Python OOP | Cliente: Ana Torres | Servicio: Capacitación Python OOP | Cantidad: 1 | Costo: $120,000.00 | Estado: Activa
