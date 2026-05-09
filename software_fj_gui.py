@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, font as tkfont
 from datetime import datetime
 from abc import ABC, abstractmethod
+from PIL import Image, ImageTk
 
 # ─────────────────────────────────────────────
 #  PALETA DE COLORES
