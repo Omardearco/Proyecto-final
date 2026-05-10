@@ -327,7 +327,7 @@ def make_button(parent, text, command, style="primary", width=None):
           "secondary": COLORS["border"]}.get(style, COLORS["accent"])
     btn = tk.Button(parent, text=text, command=command, bg=bg,
                     fg=COLORS["text_primary"], relief="flat", cursor="hand2",
-                    font=("Segoe UI", 10, "bold"), padx=14, pady=7,
+                    font=("Verdana", 10, "bold"), padx=14, pady=7,
                     activebackground=COLORS["hover"], activeforeground=COLORS["text_primary"],
                     bd=0)
     if width: btn.config(width=width)
@@ -336,13 +336,13 @@ def make_button(parent, text, command, style="primary", width=None):
 def make_label(parent, text, size=10, bold=False, color=None, **kwargs):
     weight = "bold" if bold else "normal"
     c = color or COLORS["text_primary"]
-    return tk.Label(parent, text=text, font=("Segoe UI", size, weight),
+    return tk.Label(parent, text=text, font=("Verdana", size, weight),
                     fg=c, bg=kwargs.pop("bg", COLORS["bg_card"]), **kwargs)
 
 def make_entry(parent, var, placeholder="", width=28):
     frame = tk.Frame(parent, bg=COLORS["border"], pady=1, padx=1)
     entry = tk.Entry(frame, textvariable=var, width=width,
-                     font=("Segoe UI", 10), bg=COLORS["bg_dark"],
+                     font=("Verdana", 10), bg=COLORS["bg_dark"],
                      fg=COLORS["text_primary"], relief="flat",
                      insertbackground=COLORS["text_primary"], bd=4,
                      highlightthickness=0)
@@ -369,6 +369,11 @@ def make_entry(parent, var, placeholder="", width=28):
 class AppFJ(tk.Tk):
     def __init__(self):
         super().__init__()
+
+        #Icono 
+        self.logo_icon = tk.PhotoImage(file="logo.png.png")
+        self.iconphoto(True, self.logo_icon)
+
         self.sistema = SistemaFJ()
         self._cargar_datos_demo()
         self.title("Software FJ — Sistema Integral de Gestión")
@@ -377,7 +382,8 @@ class AppFJ(tk.Tk):
         self.configure(bg=COLORS["bg_dark"])
         self._build_ui()
         self.current_page = None
-        self._show_dashboard()
+        self._show_PanelDeControl()
+
 
     def _cargar_datos_demo(self):
         """Pre-carga datos de ejemplo para visualización inmediata."""
@@ -392,11 +398,15 @@ class AppFJ(tk.Tk):
             c2 = self.sistema.agregar_cliente("Luis Méndez", "luis.mendez@empresa.co","3119876543", 45)
             c3 = self.sistema.agregar_cliente("Sofía Reyes", "sofia.reyes@mail.com",  "6012345678", 27)
             c4 = self.sistema.agregar_cliente("Carlos Ruiz", "carlos.ruiz@corp.com",  "3205551234", 38)
+            c5 = self.sistema.agregar_cliente("Luz Navarro", "luznavarro@gmail.com", "3225493832",21)
+            c6 = self.sistema.agregar_cliente("Maria Rodriguez", "maria@gmail.com", "3135656765",40) 
             self.sistema.crear_reserva(c1, srv1, 1, "Cliente prioritario")
             self.sistema.crear_reserva(c2, srv2, 3, "Proyecto e-commerce")
-            self.sistema.crear_reserva(c3, srv3, 1)
+            self.sistema.crear_reserva(c3, srv3, 1, "Primer modulo") 
             self.sistema.crear_reserva(c4, srv4, 2, "Grupo empresarial")
             self.sistema.crear_reserva(c1, srv4, 1, "Segundo módulo")
+            self.sistema.crear_reserva(c5, srv1, 1, "Segundo módulo")
+            self.sistema.crear_reserva(c6, srv4, 1, "Primer módulo")
         except Exception:
             pass
 
@@ -407,19 +417,20 @@ class AppFJ(tk.Tk):
         self.sidebar.pack_propagate(False)
 
         # Logo
-        logo_frame = tk.Frame(self.sidebar, bg=COLORS["bg_sidebar"])
-        logo_frame.pack(fill="x", pady=(20, 10), padx=16)
-        tk.Label(logo_frame, text="⬡", font=("Segoe UI", 22), fg=COLORS["accent"],
-                 bg=COLORS["bg_sidebar"]).pack(side="left")
-        tk.Label(logo_frame, text=" Software FJ", font=("Segoe UI", 13, "bold"),
-                 fg=COLORS["text_primary"], bg=COLORS["bg_sidebar"]).pack(side="left")
+        img = Image.open("logo.png.png")
+        img =img.resize((100, 100))
+        logo=ImageTk.PhotoImage(img)
 
-        tk.Frame(self.sidebar, bg=COLORS["border"], height=1).pack(fill="x", padx=16, pady=8)
+        label_logo=tk.Label (self.sidebar, image=logo,bg=COLORS["bg_sidebar"])
+        label_logo.image =logo
+        label_logo.pack(pady=10)
+        tk.Label( self.sidebar, text="Software FJ", font=("Verdana", 13, "bold"), fg=COLORS["text_primary"], bg=COLORS["bg_sidebar"]).pack()
+
 
         # Nav buttons
         self.nav_buttons = {}
         nav_items = [
-            ("dashboard", "▦  Dashboard",     self._show_dashboard),
+            ("Panel De Control", "▦  Panel De Control", self._show_PanelDeControl),
             ("clientes",  "👤  Clientes",       self._show_clientes),
             ("servicios", "🛠  Servicios",       self._show_servicios),
             ("reservas",  "📅  Reservas",        self._show_reservas),
@@ -428,7 +439,7 @@ class AppFJ(tk.Tk):
             btn = tk.Button(self.sidebar, text=label, command=cmd,
                             bg=COLORS["bg_sidebar"], fg=COLORS["text_muted"],
                             relief="flat", anchor="w", padx=20, pady=10,
-                            font=("Segoe UI", 10), cursor="hand2",
+                            font=("Verdana", 10), cursor="hand2",
                             activebackground=COLORS["hover"],
                             activeforeground=COLORS["text_primary"], bd=0)
             btn.pack(fill="x")
@@ -457,19 +468,19 @@ class AppFJ(tk.Tk):
         for w in self.content.winfo_children():
             w.destroy()
 
-    # ─── DASHBOARD ───
-    def _show_dashboard(self):
+    # ─── Panel de Control  ───
+    def _show_PanelDeControl(self):
         self._clear_content()
-        self._set_active_nav("dashboard")
+        self._set_active_nav("Panel De Control")
         stats = self.sistema.get_estadisticas()
 
         # Header
         hdr = tk.Frame(self.content, bg=COLORS["bg_dark"])
         hdr.pack(fill="x", padx=28, pady=(24, 8))
-        tk.Label(hdr, text="Dashboard", font=("Segoe UI", 20, "bold"),
+        tk.Label(hdr, text="Panel de Control", font=("Verdana", 20, "bold"),
                  fg=COLORS["text_primary"], bg=COLORS["bg_dark"]).pack(side="left")
         tk.Label(hdr, text=datetime.now().strftime("  %d %b %Y"),
-                 font=("Segoe UI", 10), fg=COLORS["text_muted"],
+                 font=("Verdana", 10), fg=COLORS["text_muted"],
                  bg=COLORS["bg_dark"]).pack(side="left", pady=6)
 
         # KPI Cards
@@ -503,7 +514,7 @@ class AppFJ(tk.Tk):
         bar_card = tk.Frame(charts, bg=COLORS["bg_card"])
         bar_card.grid(row=0, column=0, padx=(0,8), sticky="nsew")
         tk.Label(bar_card, text="Ingresos por Servicio",
-                 font=("Segoe UI", 11, "bold"), fg=COLORS["text_primary"],
+                 font=("Verdana", 11, "bold"), fg=COLORS["text_primary"],
                  bg=COLORS["bg_card"]).pack(anchor="w", padx=16, pady=(14, 4))
 
         canvas = tk.Canvas(bar_card, bg=COLORS["bg_card"], height=200,
@@ -546,9 +557,9 @@ class AppFJ(tk.Tk):
             row = tk.Frame(leg, bg=COLORS["bg_card"])
             row.pack(side="left", padx=6)
             tk.Label(row, text="■", fg=color, bg=COLORS["bg_card"],
-                     font=("Segoe UI", 12)).pack(side="left")
+                     font=("Verdana", 12)).pack(side="left")
             tk.Label(row, text=label, fg=COLORS["text_muted"],
-                     bg=COLORS["bg_card"], font=("Segoe UI", 9)).pack(side="left")
+                     bg=COLORS["bg_card"], font=("Verdana", 9)).pack(side="left")
 
     def _draw_bars(self, canvas, data, colors):
         canvas.update_idletasks()
@@ -556,7 +567,7 @@ class AppFJ(tk.Tk):
         H = 190
         if not data:
             canvas.create_text(W//2, H//2, text="Sin datos",
-                               fill=COLORS["text_muted"], font=("Segoe UI", 10))
+                               fill=COLORS["text_muted"], font=("Verdana", 10))
             return
         max_val = max(data.values()) or 1
         bar_w = int((W - 40) / (len(data) * 1.6))
@@ -570,10 +581,10 @@ class AppFJ(tk.Tk):
                                     fill=color, outline="", width=0)
             canvas.create_text(x + bar_w//2, H - 18,
                                text=tipo[:3], fill=COLORS["text_muted"],
-                               font=("Segoe UI", 8))
+                               font=("Verdana", 8))
             canvas.create_text(x + bar_w//2, y0 - 10,
                                text=f"${val/1_000_000:.1f}M" if val >= 1_000_000 else f"${val/1000:.0f}K",
-                               fill=COLORS["text_primary"], font=("Segoe UI", 8, "bold"))
+                               fill=COLORS["text_primary"], font=("Verdana", 8, "bold"))
             x += bar_w + gap
 
     def _draw_pie(self, canvas, stats):
@@ -584,7 +595,7 @@ class AppFJ(tk.Tk):
         total = stats["total_reservas"]
         if total == 0:
             canvas.create_text(cx, cy, text="Sin reservas",
-                               fill=COLORS["text_muted"], font=("Segoe UI", 10))
+                               fill=COLORS["text_muted"], font=("Verdana", 10))
             return
         activas = stats["reservas_activas"]
         canceladas = stats["reservas_canceladas"]
@@ -598,9 +609,9 @@ class AppFJ(tk.Tk):
         # Center label
         canvas.create_oval(cx-35, cy-35, cx+35, cy+35, fill=COLORS["bg_card"], outline="")
         canvas.create_text(cx, cy - 8, text=str(total),
-                           fill=COLORS["text_primary"], font=("Segoe UI", 16, "bold"))
+                           fill=COLORS["text_primary"], font=("Verdana", 16, "bold"))
         canvas.create_text(cx, cy + 10, text="total",
-                           fill=COLORS["text_muted"], font=("Segoe UI", 8))
+                           fill=COLORS["text_muted"], font=("Verdana", 8))
 
     # ─── CLIENTES ───
     def _show_clientes(self):
@@ -645,7 +656,7 @@ class AppFJ(tk.Tk):
             ("Edad",            v_edad, "25"),
         ]
         for label, var, ph in fields:
-            tk.Label(win, text=label, font=("Segoe UI", 9),
+            tk.Label(win, text=label, font=("Verdana", 9),
                      fg=COLORS["text_muted"], bg=COLORS["bg_card"]).pack(anchor="w", padx=24, pady=(10, 0))
             f, _ = make_entry(win, var, ph, 38)
             f.pack(padx=24, fill="x")
@@ -718,11 +729,11 @@ class AppFJ(tk.Tk):
         v_extra1 = tk.StringVar()
         v_extra2 = tk.StringVar()
 
-        tk.Label(win, text="Tipo de Servicio", font=("Segoe UI", 9),
+        tk.Label(win, text="Tipo de Servicio", font=("Verdana", 9),
                  fg=COLORS["text_muted"], bg=COLORS["bg_card"]).pack(anchor="w", padx=24, pady=(14, 0))
         combo = ttk.Combobox(win, textvariable=tipo_var, state="readonly",
                              values=["CONSULTORÍA", "DESARROLLO", "SOPORTE", "CAPACITACIÓN"],
-                             font=("Segoe UI", 10), width=36)
+                             font=("Verdana", 10), width=36)
         combo.pack(padx=24, anchor="w")
 
         for label, var, ph in [
@@ -730,19 +741,19 @@ class AppFJ(tk.Tk):
             ("Precio Base ($)",     v_precio, "150000"),
             ("Capacidad Máxima",    v_cap, "5"),
         ]:
-            tk.Label(win, text=label, font=("Segoe UI", 9),
+            tk.Label(win, text=label, font=("Verdana", 9),
                      fg=COLORS["text_muted"], bg=COLORS["bg_card"]).pack(anchor="w", padx=24, pady=(10, 0))
             f, _ = make_entry(win, var, ph, 38)
             f.pack(padx=24, fill="x")
 
         # Dynamic extra field
-        extra1_lbl = tk.Label(win, text="Horas (consultoría)", font=("Segoe UI", 9),
+        extra1_lbl = tk.Label(win, text="Horas (consultoría)", font=("Verdana", 9),
                               fg=COLORS["text_muted"], bg=COLORS["bg_card"])
         extra1_lbl.pack(anchor="w", padx=24, pady=(10, 0))
         f_extra1, _ = make_entry(win, v_extra1, "8", 38)
         f_extra1.pack(padx=24, fill="x")
 
-        extra2_lbl = tk.Label(win, text="Tecnología / Nivel / Tema", font=("Segoe UI", 9),
+        extra2_lbl = tk.Label(win, text="Tecnología / Nivel / Tema", font=("Verdana", 9),
                               fg=COLORS["text_muted"], bg=COLORS["bg_card"])
         extra2_lbl.pack(anchor="w", padx=24, pady=(10, 0))
         f_extra2, _ = make_entry(win, v_extra2, "Python/React / premium / POO", 38)
@@ -838,7 +849,7 @@ class AppFJ(tk.Tk):
             (f"  Canceladas: {stats['reservas_canceladas']}", COLORS["danger"]),
             (f"  Ingresos: ${stats['ingresos_totales']:,.0f}", COLORS["warning"]),
         ]:
-            tk.Label(summary, text=text, font=("Segoe UI", 10, "bold"),
+            tk.Label(summary, text=text, font=("Verdana", 10, "bold"),
                      fg=color, bg=COLORS["bg_card"], padx=14, pady=8).pack(side="left")
 
     def _modal_nueva_reserva(self):
@@ -862,16 +873,16 @@ class AppFJ(tk.Tk):
             ("Cliente", v_cliente, c_names),
             ("Servicio", v_servicio, s_names),
         ]:
-            tk.Label(win, text=label, font=("Segoe UI", 9),
+            tk.Label(win, text=label, font=("Verdana", 9),
                      fg=COLORS["text_muted"], bg=COLORS["bg_card"]).pack(anchor="w", padx=24, pady=(14, 0))
             ttk.Combobox(win, textvariable=var, state="readonly", values=opts,
-                         font=("Segoe UI", 10), width=40).pack(padx=24, anchor="w")
+                         font=("Verdana", 10), width=40).pack(padx=24, anchor="w")
 
         for label, var, ph in [
             ("Cantidad", v_cantidad, "1"),
             ("Notas (opcional)", v_notas, "Observaciones..."),
         ]:
-            tk.Label(win, text=label, font=("Segoe UI", 9),
+            tk.Label(win, text=label, font=("Verdana", 9),
                      fg=COLORS["text_muted"], bg=COLORS["bg_card"]).pack(anchor="w", padx=24, pady=(10, 0))
             f, _ = make_entry(win, var, ph, 40)
             f.pack(padx=24, fill="x")
@@ -915,7 +926,7 @@ class AppFJ(tk.Tk):
     def _page_header(self, title, new_cmd=None):
         hdr = tk.Frame(self.content, bg=COLORS["bg_dark"])
         hdr.pack(fill="x", padx=28, pady=(24, 16))
-        tk.Label(hdr, text=title, font=("Segoe UI", 18, "bold"),
+        tk.Label(hdr, text=title, font=("Verdana", 18, "bold"),
                  fg=COLORS["text_primary"], bg=COLORS["bg_dark"]).pack(side="left")
 
     def _make_treeview(self, parent, cols):
@@ -927,12 +938,12 @@ class AppFJ(tk.Tk):
                          fieldbackground=COLORS["bg_card"],
                          rowheight=32,
                          borderwidth=0,
-                         font=("Segoe UI", 9))
+                         font=("Verdana", 9))
         style.configure("FJ.Treeview.Heading",
                          background=COLORS["bg_sidebar"],
                          foreground=COLORS["text_muted"],
                          relief="flat",
-                         font=("Segoe UI", 9, "bold"))
+                         font=("Verdana", 9, "bold"))
         style.map("FJ.Treeview",
                   background=[("selected", COLORS["hover"])],
                   foreground=[("selected", COLORS["text_primary"])])
@@ -966,7 +977,7 @@ class AppFJ(tk.Tk):
         win.grab_set()
         win.transient(self)
         # Header
-        tk.Label(win, text=title, font=("Segoe UI", 14, "bold"),
+        tk.Label(win, text=title, font=("Verdana", 14, "bold"),
                  fg=COLORS["text_primary"], bg=COLORS["bg_card"]).pack(
             anchor="w", padx=24, pady=(20, 4))
         tk.Frame(win, bg=COLORS["border"], height=1).pack(fill="x", padx=24, pady=(0, 8))
